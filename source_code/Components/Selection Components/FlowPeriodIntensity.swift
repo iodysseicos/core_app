@@ -103,12 +103,16 @@ struct FlowPeriodIntensity: View {
                 Circle()
                     .fill(circleColor)
                     .frame(width:64, height: 64)
+                    .shadow(color: isSelected ? Color.black.opacity(0.3) : Color.clear, radius: 5, x: 0, y: 2) // Adiciona sombra somente se estiver selecionado
+
 
                 if isSelected {
                     selectedImage
                         .resizable()
                         .scaledToFit()
                         .frame(width: 24)
+                    
+                    
                 } else {
                     notSelectedImage
                         .resizable()
