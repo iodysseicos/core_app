@@ -167,6 +167,7 @@ struct SelectionPopUp: View {
                 dismiss()
             } label: {
                 Text("Concluído")
+                    .font(.system(size: 13, weight: .semibold))
             }
             .buttonStyle(.borderedProminent)
             .tint(Color(Colors.purple_500))
