@@ -30,21 +30,13 @@ struct CoreApp: App {
         } catch {
             fatalError("Failed to create ModelContainer")
         }
-        let cycleService = CycleService(context: container.mainContext)
-        _cycleService = State(initialValue: cycleService)
     }
-
-    var dayToPass = Calendar.current.component(.day, from: Date())
-    var monthToPass = Calendar.current.component(.month, from: Date())
-    var yearToPass = Calendar.current.component(.year, from: Date())
-    @State var date: Date = .init()
-    @State private var cycleService: CycleService
 
     var body: some Scene {
         WindowGroup {
             BackendProvider {
                 NavigationView {
-                    SideBarView(date: $date, cycleService: cycleService)
+                    SideBarView()
                 }
                 .modelContainer(container)
                 .preferredColorScheme(.light)

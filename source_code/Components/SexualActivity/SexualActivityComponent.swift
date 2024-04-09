@@ -25,12 +25,6 @@ struct SexualActivityComponent: View {
     init(currentCycle: Cycle, currentDay: Date) {
         self.currentCycle = currentCycle
         self.currentDay = currentDay
-        // verify if this day has a sexual activity
-        let sexActivity = currentCycle.sexualActivities?.first(where: {
-            $0.day.timeIntervalSince1970 == currentDay.timeIntervalSince1970
-        })
-        didHaveSex = sexActivity?.didHaveSex ?? false
-        didUseCondom = sexActivity?.didUseCondom ?? false
     }
     @ViewBuilder
     var body: some View {
@@ -61,6 +55,7 @@ struct SexualActivityComponent: View {
                 self.isShowingPopover = true
             }
             .buttonStyle(.plain)
+            .foregroundStyle(.blue)
             .popover(isPresented: $isShowingPopover) {
                 SexualActivityPopOver(
                     context: context,
@@ -84,6 +79,25 @@ struct SexualActivityComponent: View {
                 style: .circular
             )
         )
+        .onAppear {
+            // verify if this day has a sexual activity
+            let currentDate = Calendar.current.dateComponents([.day, .year, .month], from: currentDay)
+            let sexActivity = currentCycle.sexualActivities?.first(where: { activity in
+                let activityDate = Calendar.current.dateComponents([.day, .year, .month], from: activity.day)
+                let sameDay = [
+                    currentDate.day,
+                    currentDate.month,
+                    currentDate.year
+                ] == [
+                    activityDate.day,
+                    activityDate.month,
+                    activityDate.year
+                ]
+                return sameDay
+            })
+            self.didHaveSex = sexActivity?.didHaveSex ?? false
+            self.didUseCondom = sexActivity?.didUseCondom ?? false
+        }
     }
 }
 

@@ -10,12 +10,25 @@ import SwiftData
 import SwiftUI
 
 struct CalendarView: View {
-    @Environment(\.modelContext) private var context
+    private var context: ModelContext
     @State var cycleService: CycleService
-    @Binding var date: Date
+    @Binding var date: Date {
+        didSet {
+            currentCycle = cycleService.getCycleByDate(date: date) ?? Self.emptyCycle
+        }
+    }
+    @State var currentCycle: Cycle
 
     var monthToPass = Calendar.current.component(.month, from: Date())
     var yearToPass = Calendar.current.component(.year, from: Date())
+    init(context: ModelContext, date: Binding<Date>) {
+        self.context = context
+        self._date = date
+        let cycleService = CycleService(context: context)
+        _cycleService = State(initialValue: cycleService)
+        currentCycle = cycleService.getCycleByDate(date: date.wrappedValue) ?? Self.emptyCycle
+
+    }
 
     var body: some View {
         ScrollView {
@@ -53,10 +66,11 @@ struct CalendarView: View {
 
                     LazyHStack(alignment: .top) {
                         LazyVStack {
-                            SelectedFrame(cycle: cycleService.cycles.first!,
-                                          context: context, selectionType: .symptons, date: Date())
-                            SelectedFrame(cycle: cycleService.cycles.first!,
-                                          context: context, selectionType: .mood, date: Date())
+                            SelectedFrame(cycle: currentCycle,
+                                          context: context, selectionType: .symptons, date: date)
+                            SelectedFrame(cycle: currentCycle,
+                                          context: context, selectionType: .mood, date: date)
+                            SexualActivityComponent(currentCycle: currentCycle, currentDay: date)
                         }
                         LazyVStack {
                             LibidoIntensityFrame()
@@ -71,4 +85,5 @@ struct CalendarView: View {
             }
         }
     }
+    static let emptyCycle = Cycle(startDate: Date(), endDate: Date())
 }
