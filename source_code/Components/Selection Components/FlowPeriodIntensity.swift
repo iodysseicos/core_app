@@ -20,73 +20,93 @@ struct FlowPeriodIntensity: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Qual a intensidade do seu fluxo hoje?")
-                .frame(maxWidth: .infinity, alignment: .leading) // Ajusta o texto
-                .foregroundColor(Colors.gray_900)
+            Text("How is your menstrual flow today?")
+                .frame(maxWidth: .infinity,maxHeight: .infinity, alignment: .leading)
+                .foregroundColor(Colors.purple_800)
+                .font(.custom("SF Pro", size: 17))
 
             HStack(spacing: 20) {
                 VStack(spacing: 8) {
                     libidoButton(flow: .veryLight)
                     Text("Very Light")
-                        .foregroundColor(Colors.gray_900)
                 }
                 VStack(spacing: 8) {
                     libidoButton(flow: .light)
                     Text("Light")
-                        .foregroundColor(Colors.gray_900)
                 }
                 VStack(spacing: 8) {
                     libidoButton(flow: .medium)
                     Text("Moderate")
-                        .foregroundColor(Colors.gray_900)
                 }
                 VStack(spacing: 8) {
                     libidoButton(flow: .intense)
                     Text("Intense")
-                        .foregroundColor(Colors.gray_900)
                 }
-            }
+            }.frame(alignment: .center)
+                .foregroundColor(Colors.gray_800)
+                .font(.custom("SF Pro", size: 12))
         }
-        .padding(.leading, 20)
-        .frame(width: 340, height: 155)
-        .background(Color.white) // Define o fundo do HStack como branco
+        .padding(20)
+        .frame(alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
         .cornerRadius(10.0)
     }
 
     func libidoButton(flow: FlowIntensity) -> some View {
         let isSelected = selectedFlow == flow
-
         let notSelectedImage: Image
         let selectedImage: Image
-
+        
+        var circleColor: Color
+        
         switch flow {
         case .veryLight:
             notSelectedImage = Images.flowVeryLightNotSelected.swiftUIImage
             selectedImage = Images.flowVeryLightSelected.swiftUIImage
-
+            
         case .light:
             notSelectedImage = Images.flowLightNotSelected.swiftUIImage
             selectedImage = Images.flowLightSelected.swiftUIImage
-
+            
         case .medium:
             notSelectedImage = Images.flowModerateNotSelected.swiftUIImage
             selectedImage = Images.flowModerateSelected.swiftUIImage
-
+            
         case .intense:
             notSelectedImage = Images.flowIntenseNotSelected.swiftUIImage
             selectedImage = Images.flowIntenseSelected.swiftUIImage
         }
-
+        
+        if isSelected {
+            circleColor = Colors.red_100
+        } else {
+            circleColor = Colors.red_50
+        }
+        
         return Button(action: {
             self.selectedFlow = isSelected ? nil : flow
         }) {
-            if isSelected {
-                selectedImage
+            ZStack {
+                Circle()
+                    .fill(circleColor)
+                    .frame(width: 64, height: 64)
+                    .shadow(color: isSelected ? Color.black.opacity(0.3) : Color.clear, radius: 5, x: 0, y: 2) // Adiciona sombra somente se estiver selecionado
 
-            } else {
-                notSelectedImage
+                if isSelected {
+                    selectedImage
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                } else {
+                    notSelectedImage
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                }
+
             }
-        }
+        }.buttonStyle(PlainButtonStyle())
     }
 }
 

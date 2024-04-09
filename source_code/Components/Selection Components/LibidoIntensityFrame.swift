@@ -19,40 +19,38 @@ struct LibidoIntensityFrame: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Qual seu nível de libido hoje?")
-                .foregroundColor(Colors.purple_900)
-                .frame(maxWidth: .infinity, alignment: .leading) // Ajusta o texto para ocupar toda largura
-
+            Text("What is your libido level today?")
+                .foregroundColor(Colors.purple_800)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.custom("SF Pro", size: 17))
             HStack(spacing: 20) {
                 VStack(spacing: 8) {
                     libidoButton(intensity: .low)
                     Text("Low")
-                        .foregroundColor(Colors.gray_900)
                 }
                 VStack(spacing: 8) {
                     libidoButton(intensity: .medium)
                     Text("Moderate")
-                        .foregroundColor(Colors.gray_900)
                 }
                 VStack(spacing: 8) {
                     libidoButton(intensity: .high)
                     Text("High")
-                        .foregroundColor(Colors.gray_900)
                 }
-            }
+            }.foregroundColor(Colors.gray_900)
+                .font(.custom("SF Pro", size: 12))
         }
-        .padding(.leading, 20)
-        .frame(width: 356, height: 155)
-        .background(Color.white) // Define o fundo do HStack como branco
+        .padding(20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
         .cornerRadius(10.0)
     }
 
     func libidoButton(intensity: LibidoIntensity) -> some View {
         let isSelected = selectedLibido == intensity
-
         let notSelectedImage: Image
         let selectedImage: Image
-
+        var circleColor: Color
+        
         switch intensity {
         case .high:
             notSelectedImage = Images.libidoLowNotSelected.swiftUIImage
@@ -64,15 +62,32 @@ struct LibidoIntensityFrame: View {
             notSelectedImage = Images.libidoHighNotSelected.swiftUIImage
             selectedImage = Images.libidoHighSelected.swiftUIImage
         }
+        if isSelected {
+            circleColor = Colors.purple_100
+        } else {
+            circleColor = Colors.purple_50
+        }
         return Button(action: {
             self.selectedLibido = isSelected ? nil : intensity
         }) {
-            if isSelected {
-                selectedImage
-
-            } else {
-                notSelectedImage
+            ZStack{
+                Circle()
+                    .fill(circleColor)
+                    .frame(width: 64, height: 64)
+                    .shadow(color: isSelected ? Color.black.opacity(0.3) : Color.clear, radius: 5, x: 0, y: 2) // Adiciona sombra somente se estiver selecionado
+                if isSelected {
+                    selectedImage
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                } else {
+                    notSelectedImage
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 24)
+                }
             }
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
