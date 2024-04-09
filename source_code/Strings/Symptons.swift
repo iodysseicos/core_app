@@ -11,7 +11,6 @@ enum Symptons: String {
     case sensitiveBreasts = "Sensitive Breasts"
     case cramp = "Cramps"
     case headache = "Headache"
-    case fever = "Fever"
     case backache = "Backache"
     case acne = "Acne"
     case tiredness = "Tiredness"

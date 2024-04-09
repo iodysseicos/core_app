@@ -19,8 +19,6 @@ enum SymptomCorrelation {
             return Symptons.cramp.rawValue
         case .headache:
             return Symptons.headache.rawValue
-        case .fever:
-            return Symptons.fever.rawValue
         case .backpain:
             return Symptons.backache.rawValue
         case .acne:
@@ -53,8 +51,6 @@ enum SymptomCorrelation {
             return SymptomType.cramps
         case .headache:
             return SymptomType.headache
-        case .fever:
-            return SymptomType.fever
         case .backache:
             return SymptomType.backpain
         case .acne:
@@ -86,8 +82,6 @@ enum SymptomCorrelation {
             return Images.symptomCramps.swiftUIImage
         case .headache:
             return Images.symptomHeadache.swiftUIImage
-        case .fever:
-            return Images.symptomFever.swiftUIImage
         case .backpain:
             return Images.symptomBackpain.swiftUIImage
         case .acne:

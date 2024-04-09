@@ -35,8 +35,6 @@ enum Mocks {
                                                          image: SymptomCorrelation.getImage(.cramps)),
                                         SelectionElement(selectionName: SymptomCorrelation.getText(.headache),
                                                          image: SymptomCorrelation.getImage(.headache)),
-                                        SelectionElement(selectionName: SymptomCorrelation.getText(.fever),
-                                                         image: SymptomCorrelation.getImage(.fever)),
                                         SelectionElement(selectionName: SymptomCorrelation.getText(.backpain),
                                                          image: SymptomCorrelation.getImage(.backpain)),
                                         SelectionElement(selectionName: SymptomCorrelation.getText(.acne),
