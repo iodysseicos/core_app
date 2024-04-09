@@ -14,10 +14,10 @@ struct CalendarView: View {
     @State var cycleService: CycleService
     @Binding var date: Date {
         didSet {
-            currentCycle = cycleService.getCycleByDate(date: date)
+            currentCycle = cycleService.getCycleByDate(date: date) ?? Self.emptyCycle
         }
     }
-    @State var currentCycle: Cycle?
+    @State var currentCycle: Cycle
 
     var monthToPass = Calendar.current.component(.month, from: Date())
     var yearToPass = Calendar.current.component(.year, from: Date())
@@ -26,10 +26,8 @@ struct CalendarView: View {
         self._date = date
         let cycleService = CycleService(context: context)
         _cycleService = State(initialValue: cycleService)
-        self.currentCycle = cycleService.getCycleByDate(date: date.wrappedValue)
-        
-        print(self.currentCycle?.startDate)
-        print(self.currentCycle?.endDate)
+        currentCycle = cycleService.getCycleByDate(date: date.wrappedValue) ?? Self.emptyCycle
+
     }
 
     var body: some View {
@@ -68,11 +66,11 @@ struct CalendarView: View {
 
                     LazyHStack(alignment: .top) {
                         LazyVStack {
-                            SelectedFrame(cycle: currentCycle ?? Self.emptyCycle,
+                            SelectedFrame(cycle: currentCycle,
                                           context: context, selectionType: .symptons, date: date)
-                            SelectedFrame(cycle: Self.emptyCycle,
+                            SelectedFrame(cycle: currentCycle,
                                           context: context, selectionType: .mood, date: date)
-                            SexualActivityComponent(currentCycle: currentCycle ?? Self.emptyCycle, currentDay: date)
+                            SexualActivityComponent(currentCycle: currentCycle, currentDay: date)
                         }
                         LazyVStack {
                             LibidoIntensityFrame()
