@@ -115,12 +115,12 @@ struct SelectionPopUp: View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.system(size: 13))
+                    .font(.system(size: 13, weight: .regular))
                     .multilineTextAlignment(.leading)
                     .foregroundColor(Colors.purple_700)
 
                 Text(dateString)
-                    .font(.system(size: 17))
+                    .font(.system(size: 17, weight: .medium))
                     .foregroundColor(Color(Colors.gray_700))
             }
             .padding(.leading, 16)
@@ -139,6 +139,7 @@ struct SelectionPopUp: View {
                                     Color(Colors.purple_600) : Color(Colors.gray_400))
 
                             Text(element.selectionName)
+                                .font(.system(size: 17, weight: .regular))
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .alignmentGuide(.leading) { dimension in
                                     dimension[VerticalAlignment.center]

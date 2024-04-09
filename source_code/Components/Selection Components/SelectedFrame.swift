@@ -39,43 +39,57 @@ struct SelectedFrame: View {
     }
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
             HStack {
                 Text(titleText)
-                    .padding(.leading, 16)
                     .foregroundStyle(Color(Colors.purple_700))
+                    .font(.system(size: 17, weight: .regular))
                 Spacer()
             }
             .padding(.top, 8)
+            .padding(.leading, 16)
             .frame(width: 488)
-            .padding(.bottom, selectedElements.count == 0 ? -4 : 0)
 
-            VStack(spacing: 0) {
+            Spacer()
+                .frame(width: 10, height: 16)
+
+            VStack {
                 ScrollView([.horizontal], showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(selectedElements) { element in
-                            element.image
-                                .resizable()
-                                .frame(width: 60, height: 60)
-                                .clipShape(Circle())
-                                .shadow(radius: 60)
+                            VStack {
+                                element.image
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .clipShape(Circle())
+                                    .shadow(radius: 60)
+                                Text(element.selectionName)
+                                    .foregroundStyle(Color.black)
+                                    .font(.system(size: 12, weight: .regular))
+                            }
                         }
                     }
+                    .padding(.leading, 24)
                 }
-                .padding(.leading)
-                .padding(.top, -16)
-                .frame(height: selectedElements.count == 0 ? 0 : 60)
+                .frame(width: 506, height: selectedElements.count == 0 ? 0 : 60)
+
+                Spacer()
+                    .frame(width: 10, height: selectedElements.count == 0 ? 0 : 16)
 
                 Divider()
                     .foregroundColor(Color(Colors.gray_400))
                     .padding(.leading, 20)
                     .padding(.trailing, 20)
 
+                Spacer()
+                    .frame(width: 40, height: 12)
+
                 Button(action: {
                     self.isPopoverPresented = true
                 }, label: {
                     Text(buttonText)
                         .frame(width: 380, height: 20)
+                        .font(.system(size: 17, weight: .regular))
                 })
                 .popover(isPresented: $isPopoverPresented, arrowEdge: .trailing) {
                     SelectionPopUp(selection: $selectedElements,
@@ -90,15 +104,16 @@ struct SelectedFrame: View {
                 }
                 .buttonStyle(.plain)
                 .foregroundColor(Color(Colors.blue_500))
-                .frame(width: 380, height: 0)
-                .padding(.all, 16)
+                .frame(width: 506, height: 24)
+                .padding(.bottom, 12)
             }
+            .frame(width: 506)
+            .padding(.all, 0)
         }
-        .frame(width: 506, height: selectedElements.count == 0 ? 80 : 150)
+        .frame(width: 506)
         .contentShape(Rectangle())
         .background(Color.white.opacity(0.8))
         .cornerRadius(15)
-        .padding(.all, 16)
         .onAppear(perform: {
             setData()
         })
