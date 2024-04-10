@@ -38,14 +38,14 @@ struct CalendarView: View {
                     Text("Hello, Julia!")
                         .font(.system(.title2))
 
-                    HStack(spacing: 16) {
+                    LazyHStack(spacing: 16) {
                         // Calendar
                         CalendarComponent(month: monthToPass,
                                           year: yearToPass,
                                           date: $date)
 
                         // Current cycle phase
-                        VStack(spacing: 16) {
+                        LazyVStack(spacing: 16) {
                             Spacer()
                             CycleMomentComponent(phase: .period)
                         }
@@ -61,14 +61,15 @@ struct CalendarView: View {
                         .font(.system(.title2))
 
                     LazyHStack(alignment: .top) {
-                        LazyVStack {
+                        LazyVStack(alignment: .leading) {
                             SelectedFrame(cycle: currentCycle,
                                           context: context, selectionType: .symptons, date: date)
                             SelectedFrame(cycle: currentCycle,
                                           context: context, selectionType: .mood, date: date)
                             SexualActivityComponent(currentCycle: currentCycle, currentDay: date)
                         }
-                        LazyVStack {
+
+                        LazyVStack(alignment: .leading) {
                             LibidoIntensityFrame()
                             FlowPeriodIntensity()
                         }

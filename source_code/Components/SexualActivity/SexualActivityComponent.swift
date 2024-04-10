@@ -32,7 +32,7 @@ struct SexualActivityComponent: View {
             // Title
             HStack {
                 Text("Sexual Activity")
-                    .font(.title2)
+                    .font(.system(size: 17, weight: .regular))
                     .foregroundStyle(Colors.purple_700)
                 Spacer()
             }
@@ -51,9 +51,12 @@ struct SexualActivityComponent: View {
 
             // Button Section
             Divider().frame(height: 10)
-            Button("Add Activity") {
+            Button(action: {
                 self.isShowingPopover = true
-            }
+            }, label: {
+                Text("Add Activity")
+                    .font(.system(size: 17, weight: .regular))
+            })
             .buttonStyle(.plain)
             .foregroundStyle(.blue)
             .popover(isPresented: $isShowingPopover) {
@@ -68,7 +71,7 @@ struct SexualActivityComponent: View {
             }
         }
         .padding()
-        .background(.white)
+        .background(Color.white.opacity(0.8))
         .frame(maxWidth: 350)
         .clipShape(
             RoundedRectangle(
