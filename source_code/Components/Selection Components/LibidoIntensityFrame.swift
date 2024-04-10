@@ -41,7 +41,7 @@ struct LibidoIntensityFrame: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
+        .background(Color.white.opacity(0.8))
         .cornerRadius(10.0)
     }
 
@@ -50,7 +50,7 @@ struct LibidoIntensityFrame: View {
         let notSelectedImage: Image
         let selectedImage: Image
         var circleColor: Color
-        
+
         switch intensity {
         case .high:
             notSelectedImage = Images.libidoLowNotSelected.swiftUIImage

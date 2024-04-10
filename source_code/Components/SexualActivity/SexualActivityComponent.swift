@@ -68,7 +68,7 @@ struct SexualActivityComponent: View {
             }
         }
         .padding()
-        .background(.white)
+        .background(Color.white.opacity(0.8))
         .frame(maxWidth: 350)
         .clipShape(
             RoundedRectangle(

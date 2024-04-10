@@ -49,7 +49,7 @@ struct FlowPeriodIntensity: View {
         .padding(20)
         .frame(alignment: .center)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
+        .background(Color.white.opacity(0.8))
         .cornerRadius(10.0)
     }
 
