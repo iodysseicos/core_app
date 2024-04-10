@@ -53,20 +53,21 @@ struct LibidoIntensityFrame: View {
 
         switch intensity {
         case .high:
-            notSelectedImage = Images.libidoLowNotSelected.swiftUIImage
-            selectedImage = Images.libidoLowSelected.swiftUIImage
+            notSelectedImage = Images.libidoHighNotSelected.swiftUIImage
+            selectedImage = Images.libidoHighSelected.swiftUIImage
         case .medium:
             notSelectedImage = Images.libidoModerateNotSelected.swiftUIImage
             selectedImage = Images.libidoModerateSelected.swiftUIImage
         case .low:
-            notSelectedImage = Images.libidoHighNotSelected.swiftUIImage
-            selectedImage = Images.libidoHighSelected.swiftUIImage
+            notSelectedImage = Images.libidoLowNotSelected.swiftUIImage
+            selectedImage = Images.libidoLowSelected.swiftUIImage
         }
         if isSelected {
             circleColor = Colors.purple_100
         } else {
             circleColor = Colors.purple_50
         }
+
         return Button(action: {
             self.selectedLibido = isSelected ? nil : intensity
         }) {
@@ -79,12 +80,12 @@ struct LibidoIntensityFrame: View {
                     selectedImage
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 24)
+                        .frame(width: intensity == .low ? 16 : 24)
                 } else {
                     notSelectedImage
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 24)
+                        .frame(width: intensity == .low ? 16 : 24)
                 }
             }
         }
