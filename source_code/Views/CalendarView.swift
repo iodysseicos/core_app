@@ -45,9 +45,9 @@ struct CalendarView: View {
                                           date: $date)
 
                         // Current cycle phase
-                        LazyVStack(spacing: 16) {
+                        VStack(spacing: 16) {
                             Spacer()
-                            CycleMomentComponent(phase: .period)
+                            CycleMomentComponent(context: context)
                         }
                     }
                     .padding(.bottom, 32)

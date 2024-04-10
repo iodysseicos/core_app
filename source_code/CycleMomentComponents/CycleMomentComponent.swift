@@ -7,6 +7,7 @@
 
 import Assets
 import BackendLib
+import SwiftData
 import SwiftUI
 
 enum Phase: String {
@@ -17,11 +18,15 @@ enum Phase: String {
 }
 
 struct CycleMomentComponent: View {
-    @Environment(\.modelContext) private var modelContext
+    @State var cycleService: CycleService
 
-    var phase: Phase
+    init(context: ModelContext) {
+        cycleService = CycleService(context: context)
+        _cycleService = State(initialValue: cycleService)
+    }
 
     var body: some View {
+        let (phase, daysPassedInTheCycle) = calculatePhase()
         ZStack(alignment: .top) {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(.white)
@@ -42,7 +47,7 @@ struct CycleMomentComponent: View {
                         Spacer()
                     }.padding(.leading)
 
-                    BallComponent(context: modelContext, phase: phase)
+                    BallComponent(cycleService: cycleService, phase: phase, daysPassedInTheCycle: daysPassedInTheCycle)
                 }.frame(width: 600, height: 400)
 
                 ZStack(alignment: .top) {
@@ -67,6 +72,48 @@ struct CycleMomentComponent: View {
         }
         .frame(width: 600, height: 552.33)
         .cornerRadius(10)
+    }
+
+    func calculatePhase() -> (Phase, Int) {
+        let durantionOfThePeriod = 5
+        let cyclesSorted = cycleService.cycles.sorted(by: { $0.startDate < $1.startDate })
+        guard let startOfLastCycle = cyclesSorted.last?.startDate else { return (.period, 0) }
+        let today = Date()
+        let days = Int(Calendar.current.dateComponents([.day], from: startOfLastCycle, to: today).day ?? 0)
+
+        let duration = CycleCalculation().calculateDurationOfTheCycle(cyclesSorted)
+        let dateOfStartOfNextCycle = Calendar.current.date(byAdding: .day,
+                                                           value: duration,
+                                                           to: startOfLastCycle) ?? Date()
+
+        if Calendar.current.date(byAdding: .day,
+                                 value: durantionOfThePeriod,
+                                 to: startOfLastCycle) ?? Date() >= today &&
+            startOfLastCycle <= today {
+            return (.period, days + 1)
+        } else if Calendar.current.date(byAdding: .day,
+                                        value: durantionOfThePeriod,
+                                        to: startOfLastCycle) ?? Date() < today &&
+            Calendar.current.date(byAdding: .day,
+                                  value: -13, to:
+                                  dateOfStartOfNextCycle) ?? Date() > today {
+            return (.follicular, days + 1)
+        } else if Calendar.current.date(byAdding: .day,
+                                        value: -13,
+                                        to: dateOfStartOfNextCycle) ?? Date() <= today &&
+            Calendar.current.date(byAdding: .day,
+                                  value: -7,
+                                  to: dateOfStartOfNextCycle) ?? Date() >= today {
+            return (.ovulatory, days + 1)
+        } else if Calendar.current.date(byAdding: .day,
+                                        value: -7,
+                                        to: dateOfStartOfNextCycle) ?? Date() < today &&
+            Calendar.current.date(byAdding: .day,
+                                  value: -1,
+                                  to: dateOfStartOfNextCycle) ?? Date() >= today {
+            return (.luteal, days + 1)
+        }
+        return (.period, 0)
     }
 
     func tipsOfEachPhase(_ phase: Phase) -> String {

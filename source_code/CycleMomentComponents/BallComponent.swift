@@ -11,19 +11,18 @@ import SwiftData
 import SwiftUI
 
 struct BallComponent: View {
-    @State var cycleService: CycleService
+    var cycleService: CycleService
     let phase: Phase
-
-    init(context: ModelContext, phase: Phase) {
-        self.phase = phase
-
-        cycleService = CycleService(context: context)
-        _cycleService = State(initialValue: cycleService)
-    }
+    let daysPassedInTheCycle: Int
 
     var body: some View {
-        let dayOfTheCicle = calculateDayOfTheCycle(cycleService)
-        let (colorOutside, colorBetween, colorInside) = colorOfTheBall(phase)
+        // let dayOfTheCicle = calculateDayOfTheCycle(cycleService)
+        let colorOutside = colorOfTheBigBall(phase)
+        let colorOftheLine = colorOfTheLine(phase)
+        let colorBetween = colorOfTheBetweenBall(phase)
+        let colorInside = colorOfTheInsideBall(phase)
+        let durationOfTheCompleteCycle = CycleCalculation().calculateDurationOfTheCycle(
+            cycleService.cycles.sorted(by: { $0.startDate < $1.startDate }))
 
         ZStack {
             Circle()
@@ -31,49 +30,93 @@ struct BallComponent: View {
                 .foregroundColor(colorOutside)
 
             Circle()
+                .trim(from: 0.0, to: Double(daysPassedInTheCycle) / Double(durationOfTheCompleteCycle))
+                .stroke(style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
+                .foregroundColor(colorOftheLine)
+                .rotationEffect(Angle(degrees: -90))
+                .frame(width: 268, height: 268)
+
+            Circle()
                 .frame(width: 260, height: 260)
                 .foregroundColor(colorBetween)
 
             Circle()
                 .frame(width: 167, height: 167)
-                .foregroundColor(colorOutside)
+                .foregroundColor(colorInside)
 
             VStack {
-                if dayOfTheCicle < 10 {
-                    Text("Day 0\(dayOfTheCicle)")
+                if daysPassedInTheCycle < 10 {
+                    Text("Day 0\(daysPassedInTheCycle)")
                         .font(.system(size: 22))
                         .bold()
                         .foregroundColor(.white)
                 } else {
-                    Text("Day \(dayOfTheCicle)")
+                    Text("Day \(daysPassedInTheCycle)")
                         .font(.system(size: 22))
                         .bold()
                         .foregroundColor(.white)
                 }
 
-                Text("of your \(CycleCalculation().calculateDurationOfTheCycle(cycleService.cycles.sorted(by: { $0.startDate < $1.startDate })))-day cycle")
+                Text("of your \(durationOfTheCompleteCycle)-day cycle")
                     .font(.system(size: 13))
                     .foregroundColor(.white)
             }
+        }.onAppear {
+            print(daysPassedInTheCycle)
+            print(durationOfTheCompleteCycle)
+            print(Double(daysPassedInTheCycle) / Double(durationOfTheCompleteCycle))
         }
     }
 
-    func calculateDayOfTheCycle(_: CycleService) -> Int {
-        // continuar aqui
-
-        return 0
-    }
-
-    func colorOfTheBall(_ phase: Phase) -> (Color, Color, Color) {
+    func colorOfTheBigBall(_ phase: Phase) -> Color {
         switch phase {
         case .follicular:
-            return (Colors.blue_100, Colors.blue_50, Colors.blue_200)
+            return Colors.blue_100
         case .period:
-            return (Colors.red_100, Colors.red_50, Colors.red_200)
+            return Colors.red_100
         case .ovulatory:
-            return (Colors.green_300, Colors.green_100, Colors.green_500)
+            return Colors.green_300
         case .luteal:
-            return (Colors.pink_100, Colors.pink_50, Colors.pink_200)
+            return Colors.pink_100
+        }
+    }
+
+    func colorOfTheLine(_ phase: Phase) -> Color {
+        switch phase {
+        case .follicular:
+            return Colors.blue_400
+        case .period:
+            return Colors.red_400
+        case .ovulatory:
+            return Colors.green_700
+        case .luteal:
+            return Colors.pink_400
+        }
+    }
+
+    func colorOfTheBetweenBall(_ phase: Phase) -> Color {
+        switch phase {
+        case .follicular:
+            return Colors.blue_50
+        case .period:
+            return Colors.red_50
+        case .ovulatory:
+            return Colors.green_100
+        case .luteal:
+            return Colors.pink_50
+        }
+    }
+
+    func colorOfTheInsideBall(_ phase: Phase) -> Color {
+        switch phase {
+        case .follicular:
+            return Colors.blue_200
+        case .period:
+            return Colors.red_200
+        case .ovulatory:
+            return Colors.green_500
+        case .luteal:
+            return Colors.pink_200
         }
     }
 }
