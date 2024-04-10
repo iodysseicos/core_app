@@ -80,12 +80,12 @@ struct LibidoIntensityFrame: View {
                     selectedImage
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 24)
+                        .frame(width: intensity == .low ? 16 : 24)
                 } else {
                     notSelectedImage
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 24)
+                        .frame(width: intensity == .low ? 16 : 24)
                 }
             }
         }
