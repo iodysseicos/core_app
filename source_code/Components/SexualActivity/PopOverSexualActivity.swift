@@ -11,6 +11,7 @@ import BackendLib
 import SwiftData
 
 struct SexualActivityPopOver: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var didHaveSex: Bool
     @Binding var didUseCondom: Bool
     @State var didHaveSexToggle: Bool
@@ -58,6 +59,7 @@ struct SexualActivityPopOver: View {
                     didUseCondom: didUseCondom,
                     date: currentDay
                 )
+                dismiss()
             }
             .buttonStyle(.borderedProminent)
             .tint(Colors.purple_300)

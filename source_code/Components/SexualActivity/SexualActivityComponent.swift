@@ -51,9 +51,12 @@ struct SexualActivityComponent: View {
 
             // Button Section
             Divider().frame(height: 10)
-            Button("Add Activity") {
+            Button(action: {
                 self.isShowingPopover = true
-            }
+            }, label: {
+                Text("Add Activity")
+                    .font(.system(size: 17, weight: .regular))
+            })
             .buttonStyle(.plain)
             .foregroundStyle(.blue)
             .popover(isPresented: $isShowingPopover) {
