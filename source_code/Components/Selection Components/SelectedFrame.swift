@@ -118,17 +118,28 @@ struct SelectedFrame: View {
             setData()
             var sympthoms = [CycleSymptom]()
             var moods = [CycleMood]()
-            
-            if selectionType == .symptons {
+            if selectionType == .symptons && selectedElements.isEmpty {
                 cycle.sympthoms?.forEach { sympthom in
                     sympthoms.append(sympthom)
                     selectedElements.append(Mocks.mapSympthomToSelectionElement(sympthom.symptom))
+                    listElements.forEach({elem in
+                        if elem.selectionName == SymptomCorrelation.getText(sympthom.symptom) {
+                            let index = listElements.firstIndex(of: elem)
+                            listElements[index!].tap()
+                        }
+                    })
                 }
             }
-            if selectionType == .mood {
+            if selectionType == .mood && selectedElements.isEmpty {
                 cycle.moods?.forEach { mood in
                     moods.append(mood)
                     selectedElements.append(Mocks.mapMoodToSelectionElement(mood.mood))
+                    listElements.forEach({elem in
+                        if elem.selectionName == MoodCorrelation.getText(mood.mood) {
+                            let index = listElements.firstIndex(of: elem)
+                            listElements[index!].tap()
+                        }
+                    })
                 }
             }
             
