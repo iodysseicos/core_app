@@ -32,7 +32,7 @@ struct SexualActivityComponent: View {
             // Title
             HStack {
                 Text("Sexual Activity")
-                    .font(.title2)
+                    .font(.system(size: 17, weight: .regular))
                     .foregroundStyle(Colors.purple_700)
                 Spacer()
             }
