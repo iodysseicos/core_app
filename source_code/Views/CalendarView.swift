@@ -38,20 +38,16 @@ struct CalendarView: View {
                     Text("Hello, Julia!")
                         .font(.system(.title2))
 
-                    LazyHStack {
+                    HStack(spacing: 16) {
                         // Calendar
                         CalendarComponent(month: monthToPass,
                                           year: yearToPass,
                                           date: $date)
 
-                        LazyVStack(alignment: .leading) {
-                            // Begin cycle
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(width: 142, height: 78)
-
-                            // Current cycle phase
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(width: 317, height: 281)
+                        // Current cycle phase
+                        VStack(spacing: 16) {
+                            Spacer()
+                            CycleMomentComponent(phase: .period)
                         }
                     }
                     .padding(.bottom, 32)
