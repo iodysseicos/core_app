@@ -53,7 +53,7 @@ struct CalendarView: View {
                     .padding(.bottom, 32)
 
                     // Selected date
-                    Text("Thursday, 14 March 2024")
+                    Text(dayString())
                         .bold()
                         .font(.system(.title))
 
@@ -83,4 +83,12 @@ struct CalendarView: View {
         }
     }
     static let emptyCycle = Cycle(startDate: Date(), endDate: Date())
+    
+    private func dayString() -> String {
+        let weekDay = getWeekDayFromInt(Calendar.current.component(.weekday, from: date))
+        let day = Calendar.current.component(.day, from: date)
+        let month = getMonthFromInt(Calendar.current.component(.month, from: date))
+        let year = Calendar.current.component(.year, from: date)
+        return "\(weekDay), \(day) \(month) \(year)"
+    }
 }
