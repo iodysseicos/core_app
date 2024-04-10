@@ -116,6 +116,31 @@ struct SelectedFrame: View {
         .cornerRadius(15)
         .onAppear(perform: {
             setData()
+            var sympthoms = [CycleSymptom]()
+            var moods = [CycleMood]()
+            
+            if selectionType == .symptons {
+                cycle.sympthoms?.forEach { sympthom in
+                    sympthoms.append(sympthom)
+                    selectedElements.append(Mocks.mapSympthomToSelectionElement(sympthom.symptom))
+                }
+            }
+            if selectionType == .mood {
+                cycle.moods?.forEach { mood in
+                    moods.append(mood)
+                    selectedElements.append(Mocks.mapMoodToSelectionElement(mood.mood))
+                }
+            }
+            
+            /*Delete data
+            let service = CycleService(context: context)
+            sympthoms.forEach { sym in
+                service.removeSympthom(cycle: cycle, symptom: sym.symptom, date: sym.day)
+            }
+            moods.forEach { mood in
+                service.removeMood(cycle: cycle, moodType: mood.mood, date: mood.date)
+            }
+             */
         })
     }
 }

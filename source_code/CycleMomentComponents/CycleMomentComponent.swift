@@ -72,13 +72,13 @@ struct CycleMomentComponent: View {
     func tipsOfEachPhase(_ phase: Phase) -> String {
         switch phase {
         case .period:
-            return "nenhuma dica ainda"
+            return "Stay hydrated on your period to ease bloating and discomfort."
         case .ovulatory:
-            return "nenhuma dica ainda"
+            return "In the ovulatory phase, consider incorporating more omega-3 fatty acids into your diet to support hormone balance and reduce inflammation."
         case .luteal:
-            return "nenhuma dica ainda"
+            return "In the luteal phase, try to reduce caffeine intake to help manage symptoms like irritability and breast tenderness."
         case .follicular:
-            return "nenhuma dica ainda"
+            return "During the follicular phase, focus on foods rich in iron and vitamin C to support energy levels and iron absorption."
         }
     }
 }
