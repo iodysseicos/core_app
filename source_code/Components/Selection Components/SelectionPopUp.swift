@@ -79,6 +79,7 @@ struct SelectionPopUp: View {
         for index in 0 ..< selectedElements.count {
             let text = selectedElements[index].selectionName
             let sympthomType = SymptomCorrelation.getSymptomType(text)
+            print(sympthomType)
             cycleService.addSymptom(cycle: cycle, symptom: sympthomType, date: date)
         }
     }
