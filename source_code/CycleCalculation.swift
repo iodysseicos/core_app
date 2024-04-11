@@ -13,18 +13,23 @@ struct CycleCalculation {
     func calculateDurationOfTheCycle(_ allCycles: [Cycle]) -> Int {
         var allTheDuration = 0.0
         var cycles = 0.0
+        
         for cycle in allCycles {
             allTheDuration += Double(Calendar.current.dateComponents([.day],
                                                                      from: cycle.startDate, to: cycle.endDate).day ?? 0)
             cycles += 1
         }
 
-        var result = allTheDuration / cycles
-
-        if (result - Double(Int(result))) >= 0.5 {
-            result += 1
+        if cycles != 0 {
+            var result = allTheDuration / cycles
+            
+            if (result - Double(Int(result))) >= 0.5 {
+                result += 1
+            }
+            return Int(result)
+        } else {
+            return 28
         }
-        return Int(result)
     }
 
     func getTheStartOfTheLastCycle(_ cycleService: CycleService) -> (Int, Int, Int) {
